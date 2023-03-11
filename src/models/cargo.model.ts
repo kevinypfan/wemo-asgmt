@@ -24,4 +24,5 @@ export const CargoReturenCode: ICargoReturnCode = {
   SUCCESS: { code: '0000', message: 'Success' },
   USER_EXIEST: { code: '1001', message: 'User Exist' },
   BAD_CREDENTIALS: { code: '1002', message: 'Bad Credentials' },
+  NOT_FOUND: { code: '1404', message: 'Not Found' },
 };

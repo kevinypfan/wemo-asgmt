@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('core_scooters')
 export class Scooter {
@@ -9,5 +9,6 @@ export class Scooter {
   brand?: string;
 
   @Column()
+  @Index({ unique: true })
   licensePlate?: string;
 }
