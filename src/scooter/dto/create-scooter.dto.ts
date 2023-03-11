@@ -1,1 +1,5 @@
-export class CreateScooterDto {}
+export class CreateScooterDto {
+  brand?: string;
+
+  licensePlate?: string;
+}

@@ -6,13 +6,15 @@ import { AppService } from './app.service';
 import { ScooterModule } from './scooter/scooter.module';
 import { UserModule } from './user/user.module';
 import { RentModule } from './rent/rent.module';
-
-const NODE_ENV = process.env.NODE_ENV || 'development';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [`.env.${NODE_ENV}.local`, `.env.${NODE_ENV}`],
+      envFilePath: [
+        `.env.${process.env.NODE_ENV || 'development'}.local`,
+        `.env.${process.env.NODE_ENV || 'development'}`,
+      ],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -30,6 +32,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
     ScooterModule,
     UserModule,
     RentModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
