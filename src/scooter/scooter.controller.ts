@@ -16,27 +16,18 @@ import { Cargo } from 'src/models/cargo.model';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/roles.guard';
 @ApiTags('scooter')
+@ApiBearerAuth()
 @Controller('scooter')
 export class ScooterController {
   constructor(private readonly scooterService: ScooterService) {}
 
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  @Roles(Role.Admin)
-  async create(@Request() req, @Body() createScooterDto: CreateScooterDto) {
-    const scooter = await this.scooterService.create(
-      createScooterDto,
-      req.user,
-    );
-    return new Cargo(scooter);
-  }
-
   @Get()
   @UseGuards(JwtAuthGuard)
   async findAll() {
+    // TODO: pagination, filter scooters not rented
     const scooters = await this.scooterService.findAll();
     return new Cargo(scooters);
   }
@@ -46,29 +37,5 @@ export class ScooterController {
   async findOne(@Param('id') id: string) {
     const scooter = await this.scooterService.findOne(+id);
     return new Cargo(scooter);
-  }
-
-  @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin)
-  async update(
-    @Request() req,
-    @Param('id') id: string,
-    @Body() updateScooterDto: UpdateScooterDto,
-  ) {
-    const scooter = await this.scooterService.update(
-      +id,
-      updateScooterDto,
-      req.user,
-    );
-    return new Cargo(scooter);
-  }
-
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin)
-  async remove(@Param('id') id: string) {
-    this.scooterService.remove(+id);
-    return new Cargo(null);
   }
 }

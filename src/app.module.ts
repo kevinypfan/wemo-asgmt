@@ -9,6 +9,7 @@ import { RentModule } from './rent/rent.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { CargoExceptionFilter } from './cargo-exception.filter';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
