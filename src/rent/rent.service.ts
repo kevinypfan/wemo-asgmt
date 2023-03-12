@@ -47,12 +47,8 @@ export class RentService {
     return this.rentRepository.save(rent);
   }
 
-  userFindAll(idUsers: number) {
+  findAll(idUsers: number) {
     return this.rentRepository.find({ where: { idUsers } });
-  }
-
-  findOne(id: number) {
-    return this.rentRepository.findOne({ where: { idUsers: id } });
   }
 
   async drop(idRents: number, user: User) {

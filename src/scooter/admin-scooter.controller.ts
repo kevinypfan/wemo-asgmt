@@ -81,7 +81,6 @@ export class AdminScooterController {
     @Query('sorts') sorts,
     @Query('filter') filter,
   ) {
-    console.log(filter);
     const filterObject: FilterScooterDto = ObjectUtils.removeEmpty(
       JSON.parse(decodeURIComponent(filter || '{}')),
     );

@@ -2,18 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CargoException } from 'src/models/cargo.exception';
 import { CargoReturenCode } from 'src/models/cargo.model';
+import { PageRequest } from 'src/models/page-request';
+import { PageResponse } from 'src/models/page-response';
 import { ScooterService } from 'src/scooter/scooter.service';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
-import { IsNull, Repository } from 'typeorm';
+import { camelToSnake } from 'src/utils/helpers';
+import { DataSource, IsNull, Repository } from 'typeorm';
 import { CreateRentDto } from './dto/create-rent.dto';
+import { FilterRentDto } from './dto/filter-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
 import { Rent } from './entities/rent.entity';
 
 @Injectable()
 export class AdminRentService {
   constructor(
-    private userService: UserService,
+    private dataSource: DataSource,
     private scooterService: ScooterService,
     @InjectRepository(Rent)
     private rentRepository: Repository<Rent>,
@@ -32,12 +36,57 @@ export class AdminRentService {
     return this.rentRepository.save(rent);
   }
 
-  findAll() {
-    return this.rentRepository.find();
+  async findAll(pageRequest: PageRequest, filterObject: FilterRentDto) {
+    const query = this.dataSource
+      .getRepository(Rent)
+      .createQueryBuilder('rent');
+
+    if (filterObject.idScooters) {
+      query.andWhere('rent.id_scooters = :idScooters', {
+        idScooters: `%${filterObject.idScooters}%`,
+      });
+    }
+
+    if (filterObject.idUsers) {
+      query.andWhere('rent.id_users = :idUsers', {
+        idUsers: `%${filterObject.idUsers}%`,
+      });
+    }
+
+    if (filterObject.startDate && filterObject.endDate) {
+      query.andWhere(
+        '(rent.start_date, rent.end_date) OVERLAPS (:startDate, :endDate)',
+        { startDate: filterObject.startDate, endDate: filterObject.endDate },
+      );
+    } else if (filterObject.startDate) {
+      query.andWhere('rent.start_date > :startDate', {
+        startDate: filterObject.startDate,
+      });
+    } else if (filterObject.endDate) {
+      query.andWhere('rent.end_date < :endDate', {
+        endDate: filterObject.endDate,
+      });
+    }
+
+    const order = pageRequest.order;
+
+    Object.keys(order).forEach((key) => {
+      const snakeKey = camelToSnake(key);
+      query.addOrderBy(snakeKey, order[key]);
+    });
+
+    query.take(pageRequest.take);
+    query.skip(pageRequest.skip);
+
+    const [rents, count] = await query.getManyAndCount();
+
+    return new PageResponse(rents, count, pageRequest);
   }
 
-  findOne(id: number) {
-    return this.rentRepository.findOne({ where: { idRents: id } });
+  async findOne(id: number) {
+    const rent = await this.rentRepository.findOne({ where: { idRents: id } });
+    if (!rent) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    return rent;
   }
 
   update(id: number, updateRentDto: UpdateRentDto, user: User) {

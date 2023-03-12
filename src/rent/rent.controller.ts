@@ -34,14 +34,7 @@ export class RentController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.User)
   findAll(@Request() req) {
-    return this.rentService.userFindAll(req.user);
-  }
-
-  @Get(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.User)
-  findOne(@Param('id') id: string) {
-    return this.rentService.findOne(+id);
+    return this.rentService.findAll(req.user);
   }
 
   @Delete(':id')
