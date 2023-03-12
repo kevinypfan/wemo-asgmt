@@ -1,4 +1,11 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('core_scooters')
 export class Scooter {
@@ -12,15 +19,15 @@ export class Scooter {
   @Index({ unique: true })
   licensePlate?: string;
 
-  @Column({ name: 'add_id_users' })
+  @Column({ name: 'add_id_users', nullable: true })
   addIdUsers?: number;
 
-  @Column({ name: 'upd_id_users' })
+  @Column({ name: 'upd_id_users', nullable: true })
   updIdUsers?: number;
 
-  @Column({ name: 'add_date' })
+  @CreateDateColumn({ name: 'add_date' })
   addDate?: Date;
 
-  @Column({ name: 'upd_date' })
+  @UpdateDateColumn({ name: 'upd_date' })
   updDate?: Date;
 }

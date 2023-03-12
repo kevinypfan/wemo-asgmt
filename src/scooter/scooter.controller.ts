@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ScooterService } from './scooter.service';
 import { CreateScooterDto } from './dto/create-scooter.dto';
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
 import { ApiTags } from '@nestjs/swagger';
+import { RolesGuard } from 'src/auth/roles.guard';
 @ApiTags('scooter')
 @Controller('scooter')
 export class ScooterController {
@@ -24,8 +26,11 @@ export class ScooterController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @Roles(Role.Admin)
-  async create(@Body() createScooterDto: CreateScooterDto) {
-    const scooter = await this.scooterService.create(createScooterDto);
+  async create(@Request() req, @Body() createScooterDto: CreateScooterDto) {
+    const scooter = await this.scooterService.create(
+      createScooterDto,
+      req.user,
+    );
     return new Cargo(scooter);
   }
 
@@ -44,18 +49,23 @@ export class ScooterController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async update(
+    @Request() req,
     @Param('id') id: string,
     @Body() updateScooterDto: UpdateScooterDto,
   ) {
-    const scooter = await this.scooterService.update(+id, updateScooterDto);
+    const scooter = await this.scooterService.update(
+      +id,
+      updateScooterDto,
+      req.user,
+    );
     return new Cargo(scooter);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async remove(@Param('id') id: string) {
     this.scooterService.remove(+id);

@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CargoException } from 'src/models/cargo.exception';
 import { Cargo, CargoReturenCode } from 'src/models/cargo.model';
+import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateScooterDto } from './dto/create-scooter.dto';
 import { UpdateScooterDto } from './dto/update-scooter.dto';
@@ -13,8 +15,9 @@ export class ScooterService {
     private scooterRepository: Repository<Scooter>,
   ) {}
 
-  create(createScooterDto: CreateScooterDto) {
+  create(createScooterDto: CreateScooterDto, user: User) {
     const scooter = this.scooterRepository.create(createScooterDto);
+    scooter.addIdUsers = user.idUsers;
     return this.scooterRepository.save(scooter);
   }
 
@@ -26,16 +29,15 @@ export class ScooterService {
     const scooter = await this.scooterRepository.findOne({
       where: { idScooters: id },
     });
-    if (!scooter)
-      throw new HttpException(
-        new Cargo(null, CargoReturenCode.NOT_FOUND),
-        HttpStatus.NOT_FOUND,
-      );
+    if (!scooter) throw new CargoException(CargoReturenCode.NOT_FOUND);
     return scooter;
   }
 
-  async update(id: number, updateScooterDto: UpdateScooterDto) {
-    await this.scooterRepository.update(id, updateScooterDto);
+  async update(id: number, updateScooterDto: UpdateScooterDto, user: User) {
+    await this.scooterRepository.update(id, {
+      ...updateScooterDto,
+      updIdUsers: user.idUsers,
+    });
     return this.findOne(id);
   }
 
