@@ -9,7 +9,11 @@ import { ROLES_KEY } from './roles.decorator';
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
+  private hierarchy = 'admin > user';
+
   canActivate(context: ExecutionContext): boolean {
+    const hierarchyList = this.hierarchy.split('>').map((role) => role.trim());
+
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -17,12 +21,24 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
+
+    const requiredRolesMapIndex = requiredRoles
+      .map((role) => hierarchyList.indexOf(role))
+      .filter((role) => role >= 0);
+
     const { user } = context.switchToHttp().getRequest();
 
-    const isValid = requiredRoles.some((role) => user.roles?.includes(role));
+    const userRoles: string[] = user.roles;
+
+    const userRolesMapIndex = userRoles
+      .map((role) => hierarchyList.indexOf(role))
+      .filter((role) => role >= 0);
+
+    const isValid =
+      Math.min(...userRolesMapIndex) <= Math.max(...requiredRolesMapIndex);
 
     if (!isValid) throw new CargoException(CargoReturenCode.FORBIDDEN);
 
-    return isValid;
+    return true;
   }
 }
