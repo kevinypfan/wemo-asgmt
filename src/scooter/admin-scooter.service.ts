@@ -20,7 +20,13 @@ export class AdminScooterService {
     private scooterRepository: Repository<Scooter>,
   ) {}
 
-  create(createScooterDto: CreateScooterDto, user: User) {
+  async create(createScooterDto: CreateScooterDto, user: User) {
+    const existScooter = await this.scooterRepository.findOne({
+      where: { licensePlate: createScooterDto.licensePlate },
+    });
+
+    if (existScooter) throw new CargoException(CargoReturenCode.SCOOTER_EXIEST);
+
     const scooter = this.scooterRepository.create(createScooterDto);
     scooter.addIdUsers = user.idUsers;
     return this.scooterRepository.save(scooter);

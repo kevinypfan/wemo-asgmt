@@ -31,6 +31,7 @@ export const CargoReturenCode: ICargoReturnCode = {
     status: 401,
   },
   FORBIDDEN: { code: '1004', message: 'Forbidden resource', status: 403 },
+  SCOOTER_EXIEST: { code: '1005', message: 'Scooter Exist', status: 400 },
   NOT_FOUND: { code: '1404', message: 'Not Found', status: 404 },
   USER_RENTED: { code: '2000', message: 'User Rented', status: 403 },
   SCOOTER_RENTED: { code: '2001', message: 'Scooter Rented', status: 403 },

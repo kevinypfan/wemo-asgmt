@@ -20,7 +20,9 @@ import { Role } from '../auth/role.enum';
 import {
   ApiBearerAuth,
   ApiExtraModels,
+  ApiOperation,
   ApiQuery,
+  ApiResponse,
   ApiTags,
   getSchemaPath,
 } from '@nestjs/swagger';
@@ -37,6 +39,9 @@ export class AdminScooterController {
   constructor(private readonly adminScooterService: AdminScooterService) {}
 
   @Post()
+  @ApiOperation({ summary: '新增 Scooter' })
+  @ApiResponse({ status: 201, description: '0000 Success' })
+  @ApiResponse({ status: 1005, description: 'Scooter Exist' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async create(@Request() req, @Body() createScooterDto: CreateScooterDto) {
@@ -50,6 +55,8 @@ export class AdminScooterController {
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
+  @ApiOperation({ summary: '查詢多筆 Scooter' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
   @ApiQuery({
     name: 'size',
     type: 'number',

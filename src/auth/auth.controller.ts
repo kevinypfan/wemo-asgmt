@@ -44,6 +44,7 @@ export class AuthController {
 
   @Get('profile')
   @ApiBearerAuth()
+  @ApiOperation({ summary: '透過 accessToken 取得用戶資料' })
   @ApiResponse({ status: 200, description: '0000 Success' })
   @ApiResponse({ status: 1003, description: 'UNAUTHORIZED' })
   @UseGuards(JwtAuthGuard)
