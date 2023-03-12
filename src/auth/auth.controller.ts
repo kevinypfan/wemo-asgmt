@@ -6,7 +6,12 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import { SignupUserDto } from './dto/signup-user.dto';
@@ -35,6 +40,7 @@ export class AuthController {
   }
 
   @Get('profile')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   getProfile(@Request() req) {
     return req.user;

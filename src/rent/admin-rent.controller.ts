@@ -9,7 +9,6 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { RentService } from './rent.service';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -17,37 +16,50 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
-@ApiTags('rent')
+import { AdminRentService } from './admin-rent.service';
+
+@ApiTags('admin/rent')
 @ApiBearerAuth()
-@Controller('rent')
-export class RentController {
-  constructor(private readonly rentService: RentService) {}
+@Controller('admin/rent')
+export class AdminRentController {
+  constructor(private readonly adminRentService: AdminRentService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.User)
+  @Roles(Role.Admin)
   create(@Request() req, @Body() createRentDto: CreateRentDto) {
-    return this.rentService.rent(createRentDto, req.user);
+    return this.adminRentService.create(createRentDto, req.user);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.User)
-  findAll(@Request() req) {
-    return this.rentService.userFindAll(req.user);
+  @Roles(Role.Admin)
+  findAll() {
+    return this.adminRentService.findAll();
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.User)
+  @Roles(Role.Admin)
   findOne(@Param('id') id: string) {
-    return this.rentService.findOne(+id);
+    return this.adminRentService.findOne(+id);
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updateRentDto: UpdateRentDto,
+  ) {
+    return this.adminRentService.update(+id, updateRentDto, req.user);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.User)
-  drop(@Request() req, @Param('id') id: string) {
-    return this.rentService.drop(+id, req.user);
+  @Roles(Role.Admin)
+  remote(@Param('id') id: string) {
+    return this.adminRentService.remove(+id);
   }
 }

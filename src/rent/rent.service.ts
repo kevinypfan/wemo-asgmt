@@ -8,6 +8,7 @@ import { UserService } from 'src/user/user.service';
 import { IsNull, Repository } from 'typeorm';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
+import { UserRentDto } from './dto/user-rent.dto';
 import { Rent } from './entities/rent.entity';
 
 @Injectable()
@@ -19,8 +20,8 @@ export class RentService {
     private rentRepository: Repository<Rent>,
   ) {}
 
-  async create(createRentDto: CreateRentDto, user: User) {
-    const scooter = await this.scooterService.findOne(createRentDto.idScooters);
+  async rent(dto: UserRentDto, user: User) {
+    const scooter = await this.scooterService.findOne(dto.idScooters);
 
     if (!user || !scooter)
       throw new CargoException(CargoReturenCode.UNKNOWN_ERROR);
@@ -37,16 +38,13 @@ export class RentService {
 
     if (existScooter) throw new CargoException(CargoReturenCode.SCOOTER_RENTED);
 
-    const rent = this.rentRepository.create(createRentDto);
+    const rent = this.rentRepository.create(dto);
 
     rent.idUsers = user.idUsers;
     rent.startDate = new Date();
+    rent.addIdUsers = user.idUsers;
 
     return this.rentRepository.save(rent);
-  }
-
-  boFindAll() {
-    return this.rentRepository.find();
   }
 
   userFindAll(idUsers: number) {
@@ -57,13 +55,10 @@ export class RentService {
     return this.rentRepository.findOne({ where: { idUsers: id } });
   }
 
-  update(id: number, updateRentDto: UpdateRentDto) {
-    return this.rentRepository.update(id, updateRentDto);
-  }
-
-  async dropOff(idRents: number) {
+  async drop(idRents: number, user: User) {
     const rent = await this.rentRepository.findOne({ where: { idRents } });
     rent.endDate = new Date();
+    rent.updIdUsers = user.idUsers;
     return this.rentRepository.save(rent);
   }
 }
