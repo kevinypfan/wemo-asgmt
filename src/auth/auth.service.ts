@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { LoginUserDto } from './dto/login-user.dto';
+import { CargoException } from 'src/models/cargo.exception';
 
 @Injectable()
 export class AuthService {
@@ -19,18 +20,10 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.findByUsername(username);
-    if (!user)
-      throw new HttpException(
-        new Cargo(null, CargoReturenCode.USER_EXIEST),
-        HttpStatus.BAD_REQUEST,
-      );
+    if (!user) throw new CargoException(CargoReturenCode.NOT_FOUND);
 
     const isVerify = await argon2.verify(user.password, password);
-    if (!isVerify)
-      throw new HttpException(
-        new Cargo(null, CargoReturenCode.BAD_CREDENTIALS),
-        HttpStatus.UNAUTHORIZED,
-      );
+    if (!isVerify) throw new CargoException(CargoReturenCode.BAD_CREDENTIALS);
 
     return user;
   }
@@ -38,11 +31,7 @@ export class AuthService {
   public async signup(dto: SignupUserDto): Promise<Cargo<ResponseUserDto>> {
     const existUser = await this.userService.findByUsername(dto.username);
 
-    if (existUser)
-      throw new HttpException(
-        new Cargo(null, CargoReturenCode.USER_EXIEST),
-        HttpStatus.BAD_REQUEST,
-      );
+    if (existUser) throw new CargoException(CargoReturenCode.USER_EXIEST);
 
     const user = await this.userService.create(dto);
 

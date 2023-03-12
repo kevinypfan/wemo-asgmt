@@ -1,9 +1,10 @@
-interface IReturnCode {
+export interface IReturnCode {
   code: string;
   message: string;
+  status: number;
 }
 
-interface ICargoReturnCode {
+export interface ICargoReturnCode {
   [key: string]: IReturnCode;
 }
 
@@ -21,8 +22,14 @@ export class Cargo<T = any> {
 }
 
 export const CargoReturenCode: ICargoReturnCode = {
-  SUCCESS: { code: '0000', message: 'Success' },
-  USER_EXIEST: { code: '1001', message: 'User Exist' },
-  BAD_CREDENTIALS: { code: '1002', message: 'Bad Credentials' },
-  NOT_FOUND: { code: '1404', message: 'Not Found' },
+  SUCCESS: { code: '0000', message: 'Success', status: 200 },
+  USER_EXIEST: { code: '1001', message: 'User Exist', status: 400 },
+  BAD_CREDENTIALS: { code: '1002', message: 'Bad Credentials', status: 401 },
+  UNAUTHORIZED: {
+    code: '1003',
+    message: 'Unauthorized',
+    status: 401,
+  },
+  NOT_FOUND: { code: '1404', message: 'Not Found', status: 404 },
+  UNKNOWN_ERROR: { code: '9999', message: 'Unknown Error', status: 500 },
 };

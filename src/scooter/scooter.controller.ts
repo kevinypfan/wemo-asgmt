@@ -15,7 +15,8 @@ import { Cargo } from 'src/models/cargo.model';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('scooter')
 @Controller('scooter')
 export class ScooterController {
   constructor(private readonly scooterService: ScooterService) {}

@@ -7,6 +7,8 @@ import { ScooterModule } from './scooter/scooter.module';
 import { UserModule } from './user/user.module';
 import { RentModule } from './rent/rent.module';
 import { AuthModule } from './auth/auth.module';
+import { APP_FILTER } from '@nestjs/core';
+import { CargoExceptionFilter } from './cargo-exception.filter';
 
 @Module({
   imports: [
@@ -35,6 +37,12 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: CargoExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
