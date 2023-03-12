@@ -7,10 +7,12 @@ import { Repository } from 'typeorm';
 import { CreateScooterDto } from './dto/create-scooter.dto';
 import { UpdateScooterDto } from './dto/update-scooter.dto';
 import { Scooter } from './entities/scooter.entity';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class ScooterService {
   constructor(
+    private dataSource: DataSource,
     @InjectRepository(Scooter)
     private scooterRepository: Repository<Scooter>,
   ) {}
@@ -21,8 +23,16 @@ export class ScooterService {
     return this.scooterRepository.save(scooter);
   }
 
-  findAll() {
-    return this.scooterRepository.find();
+  async findAll() {
+    const scooters = await this.dataSource
+      .getRepository(Scooter)
+      .createQueryBuilder('scooter')
+      .where(
+        '(select count(*) from core_rents where core_rents.id_scooters = scooter.id_scooters and core_rents.end_date is null) = 0',
+      )
+      .getMany();
+
+    return scooters;
   }
 
   async findOne(id: number) {
