@@ -52,6 +52,7 @@ export class AuthService {
       username: user.username,
       sub: user.idUsers,
       email: user.email,
+      roles: user.roles,
     };
 
     resUser.email = user.email;
@@ -69,6 +70,7 @@ export class AuthService {
       username: user.username,
       sub: user.idUsers,
       email: user.email,
+      roles: user.roles,
     };
 
     const resUser = new ResponseUserDto();

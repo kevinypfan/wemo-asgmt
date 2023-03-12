@@ -11,4 +11,16 @@ export class Scooter {
   @Column()
   @Index({ unique: true })
   licensePlate?: string;
+
+  @Column({ name: 'add_id_users' })
+  addIdUsers?: number;
+
+  @Column({ name: 'upd_id_users' })
+  updIdUsers?: number;
+
+  @Column({ name: 'add_date' })
+  addDate?: Date;
+
+  @Column({ name: 'upd_date' })
+  updDate?: Date;
 }
