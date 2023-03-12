@@ -13,14 +13,14 @@ import {
 import { ScooterService } from './scooter.service';
 import { CreateScooterDto } from './dto/create-scooter.dto';
 import { UpdateScooterDto } from './dto/update-scooter.dto';
-import { Cargo } from 'src/models/cargo.model';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { Role } from 'src/auth/role.enum';
+import { Cargo } from '../models/cargo.model';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../auth/role.enum';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { PageRequest } from 'src/models/page-request';
-import { ObjectUtils } from 'src/utils/helpers';
+import { RolesGuard } from '../auth/roles.guard';
+import { PageRequest } from '../models/page-request';
+import { ObjectUtils } from '../utils/helpers';
 import { FilterScooterDto } from './dto/filter-scooter.dto';
 @ApiTags('scooter')
 @ApiBearerAuth()

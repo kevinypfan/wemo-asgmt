@@ -3,8 +3,8 @@ import { RentService } from './rent.service';
 import { RentController } from './rent.controller';
 import { Rent } from './entities/rent.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from 'src/user/user.module';
-import { ScooterModule } from 'src/scooter/scooter.module';
+import { UserModule } from '../user/user.module';
+import { ScooterModule } from '../scooter/scooter.module';
 import { AdminRentService } from './admin-rent.service';
 import { AdminRentController } from './admin-rent.controller';
 

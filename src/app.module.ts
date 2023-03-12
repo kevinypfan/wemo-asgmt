@@ -27,7 +27,7 @@ import { AuthService } from './auth/auth.service';
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DATABASE,
       synchronize: true,
-      logging: true,
+      logging: false,
       autoLoadEntities: true,
       subscribers: [],
       migrations: [],

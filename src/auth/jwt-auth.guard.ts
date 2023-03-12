@@ -4,8 +4,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CargoException } from 'src/models/cargo.exception';
-import { CargoReturenCode } from 'src/models/cargo.model';
+import { CargoException } from '../models/cargo.exception';
+import { CargoReturenCode } from '../models/cargo.model';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

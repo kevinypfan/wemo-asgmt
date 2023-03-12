@@ -16,3 +16,7 @@ export const snakeToCamel = (str) =>
     .replace(/([-_][a-z])/g, (group) =>
       group.toUpperCase().replace('-', '').replace('_', ''),
     );
+
+export const delay = (ms) => {
+  return new Promise<void>((resolve) => setTimeout(() => resolve(), ms));
+};

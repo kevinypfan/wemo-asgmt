@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CargoException } from 'src/models/cargo.exception';
-import { Cargo, CargoReturenCode } from 'src/models/cargo.model';
-import { PageRequest } from 'src/models/page-request';
-import { PageResponse } from 'src/models/page-response';
-import { User } from 'src/user/entities/user.entity';
-import { camelToSnake } from 'src/utils/helpers';
+import { CargoException } from '../models/cargo.exception';
+import { Cargo, CargoReturenCode } from '../models/cargo.model';
+import { PageRequest } from '../models/page-request';
+import { PageResponse } from '../models/page-response';
+import { User } from '../user/entities/user.entity';
+import { camelToSnake } from '../utils/helpers';
 import { DataSource, Repository } from 'typeorm';
 import { CreateScooterDto } from './dto/create-scooter.dto';
 import { FilterScooterDto } from './dto/filter-scooter.dto';

@@ -1,17 +1,14 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CargoException } from 'src/models/cargo.exception';
-import { Cargo, CargoReturenCode } from 'src/models/cargo.model';
-import { User } from 'src/user/entities/user.entity';
+import { CargoException } from '../models/cargo.exception';
+import { CargoReturenCode } from '../models/cargo.model';
 import { Repository } from 'typeorm';
-import { CreateScooterDto } from './dto/create-scooter.dto';
-import { UpdateScooterDto } from './dto/update-scooter.dto';
 import { Scooter } from './entities/scooter.entity';
 import { DataSource } from 'typeorm';
-import { PageRequest } from 'src/models/page-request';
+import { PageRequest } from '../models/page-request';
 import { FilterScooterDto } from './dto/filter-scooter.dto';
-import { PageResponse } from 'src/models/page-response';
-import { camelToSnake } from 'src/utils/helpers';
+import { PageResponse } from '../models/page-response';
+import { camelToSnake } from '../utils/helpers';
 
 @Injectable()
 export class ScooterService {

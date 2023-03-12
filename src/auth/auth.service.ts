@@ -1,21 +1,12 @@
-import {
-  forwardRef,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import * as argon2 from 'argon2';
 import { SignupUserDto } from './dto/signup-user.dto';
-import { Cargo, CargoReturenCode } from 'src/models/cargo.model';
+import { Cargo, CargoReturenCode } from '../models/cargo.model';
 import { ResponseUserDto } from './dto/response-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
 import { LoginUserDto } from './dto/login-user.dto';
-import { CargoException } from 'src/models/cargo.exception';
+import { CargoException } from '../models/cargo.exception';
 
 @Injectable()
 export class AuthService {

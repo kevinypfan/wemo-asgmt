@@ -18,15 +18,15 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { Role } from 'src/auth/role.enum';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../auth/role.enum';
 import { AdminRentService } from './admin-rent.service';
 import { FilterRentDto } from './dto/filter-rent.dto';
-import { ObjectUtils } from 'src/utils/helpers';
-import { PageRequest } from 'src/models/page-request';
-import { Cargo } from 'src/models/cargo.model';
+import { ObjectUtils } from '../utils/helpers';
+import { PageRequest } from '../models/page-request';
+import { Cargo } from '../models/cargo.model';
 
 @ApiTags('admin/rent')
 @ApiBearerAuth()

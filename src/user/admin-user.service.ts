@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Cargo, CargoReturenCode } from 'src/models/cargo.model';
+import { Cargo, CargoReturenCode } from '../models/cargo.model';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
-import { SignupUserDto } from 'src/auth/dto/signup-user.dto';
+import { SignupUserDto } from '../auth/dto/signup-user.dto';
 
 @Injectable()
 export class AdminUserService {

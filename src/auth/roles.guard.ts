@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { CargoException } from 'src/models/cargo.exception';
-import { CargoReturenCode } from 'src/models/cargo.model';
+import { CargoException } from '../models/cargo.exception';
+import { CargoReturenCode } from '../models/cargo.model';
 import { Role } from './role.enum';
 import { ROLES_KEY } from './roles.decorator';
 

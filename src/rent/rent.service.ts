@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CargoException } from 'src/models/cargo.exception';
-import { CargoReturenCode } from 'src/models/cargo.model';
-import { ScooterService } from 'src/scooter/scooter.service';
-import { User } from 'src/user/entities/user.entity';
-import { UserService } from 'src/user/user.service';
+import { CargoException } from '../models/cargo.exception';
+import { CargoReturenCode } from '../models/cargo.model';
+import { ScooterService } from '../scooter/scooter.service';
+import { User } from '../user/entities/user.entity';
+import { UserService } from '../user/user.service';
 import { IsNull, Repository } from 'typeorm';
 import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
