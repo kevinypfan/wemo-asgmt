@@ -15,7 +15,7 @@ export class Scooter {
   @Column()
   brand?: string;
 
-  @Column()
+  @Column({ name: 'license_plate' })
   @Index({ unique: true })
   licensePlate?: string;
 
