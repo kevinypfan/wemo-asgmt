@@ -47,8 +47,10 @@ export class RentService {
     return this.rentRepository.save(rent);
   }
 
-  findAll(idUsers: number) {
-    return this.rentRepository.find({ where: { idUsers } });
+  findAll(user: User) {
+    return this.rentRepository.find({
+      where: { idUsers: user.idUsers, endDate: IsNull() },
+    });
   }
 
   async drop(idRents: number, user: User) {
