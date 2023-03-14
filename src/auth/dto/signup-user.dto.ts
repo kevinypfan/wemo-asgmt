@@ -4,6 +4,4 @@ export class SignupUserDto {
   password: string;
 
   email: string;
-
-  roles: string;
 }

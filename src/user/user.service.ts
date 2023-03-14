@@ -8,6 +8,7 @@ import { SignupUserDto } from '../auth/dto/signup-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { CargoException } from '../models/cargo.exception';
 import { AuthService } from '../auth/auth.service';
+import { UpdateRolesDto } from './dto/update-roles.dto';
 
 @Injectable()
 export class UserService {
@@ -27,10 +28,6 @@ export class UserService {
     user.password = hashedPassword;
 
     return await this.userRepository.save(user);
-  }
-
-  findAll() {
-    return this.userRepository.find();
   }
 
   async findOne(id: number) {
