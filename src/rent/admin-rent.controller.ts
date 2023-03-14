@@ -15,7 +15,9 @@ import { UpdateRentDto } from './dto/update-rent.dto';
 import {
   ApiBearerAuth,
   ApiExtraModels,
+  ApiOperation,
   ApiQuery,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -35,10 +37,13 @@ export class AdminRentController {
   constructor(private readonly adminRentService: AdminRentService) {}
 
   @Post()
+  @ApiOperation({ summary: '後台新增租車資訊' })
+  @ApiResponse({ status: 200, description: '0000 Success (200)' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  create(@Request() req, @Body() createRentDto: CreateRentDto) {
-    return this.adminRentService.create(createRentDto, req.user);
+  async create(@Request() req, @Body() createRentDto: CreateRentDto) {
+    const rent = await this.adminRentService.create(createRentDto, req.user);
+    return new Cargo(rent);
   }
 
   @Get()
@@ -92,25 +97,32 @@ export class AdminRentController {
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  findOne(@Param('id') id: string) {
-    return this.adminRentService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const rent = await this.adminRentService.findOne(+id);
+    return new Cargo(rent);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  update(
+  async update(
     @Request() req,
     @Param('id') id: string,
     @Body() updateRentDto: UpdateRentDto,
   ) {
-    return this.adminRentService.update(+id, updateRentDto, req.user);
+    const rent = await this.adminRentService.update(
+      +id,
+      updateRentDto,
+      req.user,
+    );
+    return new Cargo(rent);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  remote(@Param('id') id: string) {
-    return this.adminRentService.remove(+id);
+  async remote(@Param('id') id: string) {
+    await this.adminRentService.remove(+id);
+    return new Cargo(null);
   }
 }

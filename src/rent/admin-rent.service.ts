@@ -89,11 +89,12 @@ export class AdminRentService {
     return rent;
   }
 
-  update(id: number, updateRentDto: UpdateRentDto, user: User) {
-    return this.rentRepository.update(id, {
+  async update(id: number, updateRentDto: UpdateRentDto, user: User) {
+    await this.rentRepository.update(id, {
       ...updateRentDto,
       updIdUsers: user.idUsers,
     });
+    return this.findOne(id);
   }
 
   remove(id: number) {

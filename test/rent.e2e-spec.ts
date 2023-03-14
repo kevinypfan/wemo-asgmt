@@ -9,6 +9,7 @@ import { User } from '../src/user/entities/user.entity';
 import { Rent } from '../src/rent/entities/rent.entity';
 import * as argon2 from 'argon2';
 import { randomLicensePlates } from '../src/utils/helpers';
+import { CreateRentDto } from 'src/rent/dto/create-rent.dto';
 
 const mockUsers = [
   {
@@ -89,11 +90,93 @@ describe('RentController (e2e)', () => {
     console.log(users);
   });
   describe('Admin', () => {
-    it('/ (GET)', () => {
-      return request(app.getHttpServer())
-        .get('/')
-        .expect(200)
-        .expect('Hello World!');
+    it('POST /admin/rent (0000)', async () => {
+      const startDate = new Date();
+      const endDate = new Date();
+
+      endDate.setHours(endDate.getHours() - 6);
+
+      const payload = {
+        idScooters: scooters[1].idScooters,
+        idUsers: users[1].idUsers,
+        startDate,
+        endDate,
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/admin/rent')
+        .send(payload)
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(201);
+      expect(response.body.code).toEqual('0000');
+      console.log(response.body);
+    });
+
+    it('GET /admin/rent (0000)', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/admin/rent')
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(200);
+      expect(response.body.code).toEqual('0000');
+      expect(response.body.info.content.length).toEqual(1);
+      expect(response.body.info.totalElements).toEqual(1);
+    });
+
+    it('PATCH /admin/rent/:id (0000)', async () => {
+      let response = await request(app.getHttpServer())
+        .get('/admin/rent')
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(200);
+      expect(response.body.code).toEqual('0000');
+      expect(response.body.info.content.length).toEqual(1);
+      expect(response.body.info.totalElements).toEqual(1);
+
+      const rent = response.body.info.content[0];
+
+      const payload = {
+        idScooters: scooters[2].idScooters,
+        idUsers: users[1].idUsers,
+      };
+
+      response = await request(app.getHttpServer())
+        .patch('/admin/rent/' + rent.idRents)
+        .send(payload)
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(200);
+      expect(response.body.code).toEqual('0000');
+    });
+
+    it('DELETE /admin/rent/:id (0000)', async () => {
+      let response = await request(app.getHttpServer())
+        .get('/admin/rent')
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(200);
+      expect(response.body.code).toEqual('0000');
+      expect(response.body.info.content.length).toEqual(1);
+      expect(response.body.info.totalElements).toEqual(1);
+
+      const rent = response.body.info.content[0];
+
+      response = await request(app.getHttpServer())
+        .del('/admin/rent/' + rent.idRents)
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(200);
+      expect(response.body.code).toEqual('0000');
+
+      response = await request(app.getHttpServer())
+        .get('/admin/rent')
+        .set('Authorization', `Bearer ${users[0].accessToken}`)
+        .set('Accept', 'application/json');
+      expect(response.status).toEqual(200);
+      expect(response.body.code).toEqual('0000');
+      expect(response.body.info.content.length).toEqual(0);
+      expect(response.body.info.totalElements).toEqual(0);
     });
   });
 
