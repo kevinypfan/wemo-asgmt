@@ -33,8 +33,6 @@ export class AuthService {
 
     const user = await this.userService.create(dto);
 
-    user.roles = 'user';
-
     const resUser = new ResponseUserDto();
 
     const payload = {

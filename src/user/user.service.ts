@@ -26,6 +26,7 @@ export class UserService {
 
     user.lastLogin = new Date();
     user.password = hashedPassword;
+    user.roles = 'user';
 
     return await this.userRepository.save(user);
   }
