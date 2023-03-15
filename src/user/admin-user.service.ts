@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Cargo, CargoReturenCode } from '../models/cargo.model';
+import { Cargo, CargoReturnCode } from '../models/cargo.model';
 import { DataSource, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -74,7 +74,7 @@ export class AdminUserService {
   async findOne(id: number) {
     const user = await this.userRepository.findOne({ where: { idUsers: id } });
 
-    if (!user) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    if (!user) throw new CargoException(CargoReturnCode.NOT_FOUND);
     return user;
   }
 

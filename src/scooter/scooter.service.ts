@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CargoException } from '../models/cargo.exception';
-import { CargoReturenCode } from '../models/cargo.model';
+import { CargoReturnCode } from '../models/cargo.model';
 import { Repository } from 'typeorm';
 import { Scooter } from './entities/scooter.entity';
 import { DataSource } from 'typeorm';
@@ -60,7 +60,7 @@ export class ScooterService {
     const scooter = await this.scooterRepository.findOne({
       where: { idScooters: id },
     });
-    if (!scooter) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    if (!scooter) throw new CargoException(CargoReturnCode.NOT_FOUND);
     return scooter;
   }
 }

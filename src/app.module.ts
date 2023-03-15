@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { BadRequestException, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { CargoExceptionFilter } from './cargo-exception.filter';
 import { AuthService } from './auth/auth.service';
+import { BadRequestExceptionFilter } from './bad-request-exception.filter';
 
 @Module({
   imports: [
@@ -43,6 +44,10 @@ import { AuthService } from './auth/auth.service';
     {
       provide: APP_FILTER,
       useClass: CargoExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: BadRequestExceptionFilter,
     },
   ],
 })

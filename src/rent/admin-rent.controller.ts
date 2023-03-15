@@ -14,6 +14,7 @@ import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiExtraModels,
   ApiOperation,
   ApiQuery,
@@ -38,6 +39,16 @@ export class AdminRentController {
 
   @Post()
   @ApiOperation({ summary: '後台新增租車資訊' })
+  @ApiBody({
+    schema: {
+      properties: {
+        idScooters: { type: 'number' },
+        idUsers: { type: 'number' },
+        startDate: { type: 'string', nullable: true },
+        endDate: { type: 'string', nullable: true },
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: '0000 Success (200)' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)

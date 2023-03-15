@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -10,11 +11,9 @@ async function bootstrap() {
     .setDescription('Wemo rent scooter backend assignment')
     .setVersion('0.0.1')
     .addBearerAuth()
-    .addTag('scooter')
-    .addTag('auth')
-    .addTag('user')
-    .addTag('rent')
     .build();
+
+  app.useGlobalPipes(new ValidationPipe());
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 

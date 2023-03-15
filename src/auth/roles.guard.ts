@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { CargoException } from '../models/cargo.exception';
-import { CargoReturenCode } from '../models/cargo.model';
+import { CargoReturnCode } from '../models/cargo.model';
 import { Role } from './role.enum';
 import { ROLES_KEY } from './roles.decorator';
 
@@ -37,7 +37,7 @@ export class RolesGuard implements CanActivate {
     const isValid =
       Math.min(...userRolesMapIndex) <= Math.max(...requiredRolesMapIndex);
 
-    if (!isValid) throw new CargoException(CargoReturenCode.FORBIDDEN);
+    if (!isValid) throw new CargoException(CargoReturnCode.FORBIDDEN);
 
     return true;
   }

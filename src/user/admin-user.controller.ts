@@ -56,7 +56,7 @@ export class AdminUserController {
     name: 'sorts',
     type: 'string',
     required: false,
-    example: 'idUsers,desc;updDate,asc',
+    example: 'idUsers,desc',
   })
   @ApiExtraModels(FilterUserDto)
   @ApiQuery({

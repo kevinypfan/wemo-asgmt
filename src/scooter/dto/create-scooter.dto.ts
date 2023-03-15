@@ -1,5 +1,9 @@
-export class CreateScooterDto {
-  brand?: string;
+import { IsString } from 'class-validator';
 
-  licensePlate?: string;
+export class CreateScooterDto {
+  @IsString()
+  brand: string;
+
+  @IsString()
+  licensePlate: string;
 }

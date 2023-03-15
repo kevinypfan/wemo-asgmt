@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CargoReturenCode } from '../models/cargo.model';
+import { CargoReturnCode } from '../models/cargo.model';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
@@ -33,7 +33,7 @@ export class UserService {
   async findOne(id: number) {
     const user = await this.userRepository.findOne({ where: { idUsers: id } });
 
-    if (!user) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    if (!user) throw new CargoException(CargoReturnCode.NOT_FOUND);
     return user;
   }
 

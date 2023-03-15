@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CargoException } from '../models/cargo.exception';
-import { CargoReturenCode } from '../models/cargo.model';
+import { CargoReturnCode } from '../models/cargo.model';
 import { PageRequest } from '../models/page-request';
 import { PageResponse } from '../models/page-response';
 import { ScooterService } from '../scooter/scooter.service';
@@ -27,7 +27,7 @@ export class AdminRentService {
     const scooter = await this.scooterService.findOne(createRentDto.idScooters);
 
     if (!user || !scooter)
-      throw new CargoException(CargoReturenCode.UNKNOWN_ERROR);
+      throw new CargoException(CargoReturnCode.UNKNOWN_ERROR);
 
     const rent = await this.rentRepository.create(createRentDto);
 
@@ -85,7 +85,7 @@ export class AdminRentService {
 
   async findOne(id: number) {
     const rent = await this.rentRepository.findOne({ where: { idRents: id } });
-    if (!rent) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    if (!rent) throw new CargoException(CargoReturnCode.NOT_FOUND);
     return rent;
   }
 

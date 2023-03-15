@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import * as argon2 from 'argon2';
 import { SignupUserDto } from './dto/signup-user.dto';
-import { Cargo, CargoReturenCode } from '../models/cargo.model';
+import { Cargo, CargoReturnCode } from '../models/cargo.model';
 import { ResponseUserDto } from './dto/response-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { CargoException } from '../models/cargo.exception';
@@ -18,10 +18,10 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.findByUsername(username);
-    if (!user) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    if (!user) throw new CargoException(CargoReturnCode.NOT_FOUND);
 
     const isVerify = await argon2.verify(user.password, password);
-    if (!isVerify) throw new CargoException(CargoReturenCode.BAD_CREDENTIALS);
+    if (!isVerify) throw new CargoException(CargoReturnCode.BAD_CREDENTIALS);
 
     return user;
   }
@@ -29,7 +29,7 @@ export class AuthService {
   public async signup(dto: SignupUserDto): Promise<Cargo<ResponseUserDto>> {
     const existUser = await this.userService.findByUsername(dto.username);
 
-    if (existUser) throw new CargoException(CargoReturenCode.USER_EXIEST);
+    if (existUser) throw new CargoException(CargoReturnCode.USER_EXIEST);
 
     const user = await this.userService.create(dto);
 

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CargoException } from '../models/cargo.exception';
-import { Cargo, CargoReturenCode } from '../models/cargo.model';
+import { Cargo, CargoReturnCode } from '../models/cargo.model';
 import { PageRequest } from '../models/page-request';
 import { PageResponse } from '../models/page-response';
 import { User } from '../user/entities/user.entity';
@@ -25,7 +25,7 @@ export class AdminScooterService {
       where: { licensePlate: createScooterDto.licensePlate },
     });
 
-    if (existScooter) throw new CargoException(CargoReturenCode.SCOOTER_EXIEST);
+    if (existScooter) throw new CargoException(CargoReturnCode.SCOOTER_EXIEST);
 
     const scooter = this.scooterRepository.create(createScooterDto);
     scooter.addIdUsers = user.idUsers;
@@ -74,7 +74,7 @@ export class AdminScooterService {
     const scooter = await this.scooterRepository.findOne({
       where: { idScooters: id },
     });
-    if (!scooter) throw new CargoException(CargoReturenCode.NOT_FOUND);
+    if (!scooter) throw new CargoException(CargoReturnCode.NOT_FOUND);
     return scooter;
   }
 
