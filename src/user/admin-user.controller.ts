@@ -88,6 +88,9 @@ export class AdminUserController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: '查詢單筆用戶' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
+  @ApiResponse({ status: 1404, description: 'Not Found' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async findOne(@Param('id') id: string) {
@@ -96,6 +99,9 @@ export class AdminUserController {
   }
 
   @Patch(':id/update-roles')
+  @ApiOperation({ summary: '更新用戶權限' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
+  @ApiResponse({ status: 1404, description: 'Not Found' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async updateRoles(@Param('id') id: string, @Body() dto: UpdateRolesDto) {

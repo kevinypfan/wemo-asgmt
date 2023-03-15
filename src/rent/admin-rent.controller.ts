@@ -49,6 +49,8 @@ export class AdminRentController {
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
+  @ApiOperation({ summary: '後台查詢租車資訊' })
+  @ApiResponse({ status: 200, description: '0000 Success (200)' })
   @ApiQuery({
     name: 'size',
     type: 'number',
@@ -96,6 +98,9 @@ export class AdminRentController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiOperation({ summary: '後台查詢單筆租車資訊' })
+  @ApiResponse({ status: 200, description: '0000 Success (200)' })
+  @ApiResponse({ status: 1404, description: 'Not Found (404)' })
   @Roles(Role.Admin)
   async findOne(@Param('id') id: string) {
     const rent = await this.adminRentService.findOne(+id);
@@ -105,6 +110,9 @@ export class AdminRentController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
+  @ApiOperation({ summary: '後台更新單筆租車資訊' })
+  @ApiResponse({ status: 200, description: '0000 Success (200)' })
+  @ApiResponse({ status: 1404, description: 'Not Found (404)' })
   async update(
     @Request() req,
     @Param('id') id: string,
@@ -121,6 +129,9 @@ export class AdminRentController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
+  @ApiOperation({ summary: '後台刪除單筆租車資訊' })
+  @ApiResponse({ status: 200, description: '0000 Success (200)' })
+  @ApiResponse({ status: 1404, description: 'Not Found (404)' })
   async remote(@Param('id') id: string) {
     await this.adminRentService.remove(+id);
     return new Cargo(null);

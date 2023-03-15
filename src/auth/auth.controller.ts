@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -26,6 +27,15 @@ export class AuthController {
 
   @Post('/signup')
   @ApiOperation({ summary: '註冊帳號' })
+  @ApiBody({
+    schema: {
+      properties: {
+        username: { type: 'string' },
+        password: { type: 'string' },
+        email: { type: 'string' },
+      },
+    },
+  })
   @ApiResponse({ status: 1001, description: 'User Exist' })
   @ApiResponse({ status: 201, description: '0000 Success' })
   signup(@Body() dto: SignupUserDto) {
@@ -35,6 +45,14 @@ export class AuthController {
   @Post('/login')
   @HttpCode(200)
   @ApiOperation({ summary: '登入帳號' })
+  @ApiBody({
+    schema: {
+      properties: {
+        username: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+  })
   @ApiResponse({ status: 1002, description: 'Bad Credentials' })
   @ApiResponse({ status: 1404, description: 'Not Found' })
   @ApiResponse({ status: 200, description: '0000 Success' })

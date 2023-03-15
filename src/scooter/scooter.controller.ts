@@ -17,7 +17,13 @@ import { Cargo } from '../models/cargo.model';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from '../auth/role.enum';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { RolesGuard } from '../auth/roles.guard';
 import { PageRequest } from '../models/page-request';
 import { ObjectUtils } from '../utils/helpers';
@@ -30,6 +36,8 @@ export class ScooterController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '查詢多筆 Scooter' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
   @ApiQuery({
     name: 'size',
     type: 'number',
@@ -74,6 +82,8 @@ export class ScooterController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: '查詢單筆 Scooter' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
   @UseGuards(JwtAuthGuard)
   async findOne(@Param('id') id: string) {
     const scooter = await this.scooterService.findOne(+id);

@@ -14,6 +14,7 @@ import { CreateRentDto } from './dto/create-rent.dto';
 import { UpdateRentDto } from './dto/update-rent.dto';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -37,6 +38,13 @@ export class RentController {
   @ApiResponse({ status: 2000, description: 'User Rented (403)' })
   @ApiResponse({ status: 2001, description: 'Scooter Rented (403)' })
   @ApiResponse({ status: 9999, description: 'Unknown Error (500)' })
+  @ApiBody({
+    schema: {
+      properties: {
+        idScooters: { type: 'number' },
+      },
+    },
+  })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.User)
   async create(@Request() req, @Body() dto: UserRentDto) {

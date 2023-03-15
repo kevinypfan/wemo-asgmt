@@ -102,6 +102,9 @@ export class AdminScooterController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: '查詢單筆 Scooter' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
+  @ApiResponse({ status: 1404, description: 'Not Found (404)' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async findOne(@Param('id') id: string) {
@@ -112,6 +115,9 @@ export class AdminScooterController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
+  @ApiOperation({ summary: '更新單筆 Scooter' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
+  @ApiResponse({ status: 1404, description: 'Not Found (404)' })
   async update(
     @Request() req,
     @Param('id') id: string,
@@ -126,6 +132,9 @@ export class AdminScooterController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: '刪除單筆 Scooter' })
+  @ApiResponse({ status: 200, description: '0000 Success' })
+  @ApiResponse({ status: 1404, description: 'Not Found (404)' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   async remove(@Param('id') id: string) {
