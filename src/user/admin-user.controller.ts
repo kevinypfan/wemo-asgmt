@@ -25,10 +25,10 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { FilterUserDto } from './dto/filter-user.dto';
-import { ObjectUtils } from 'src/utils/helpers';
-import { PageRequest } from 'src/models/page-request';
+import { ObjectUtils } from '../utils/helpers';
+import { PageRequest } from '../models/page-request';
 import { AdminUserService } from './admin-user.service';
-import { Cargo } from 'src/models/cargo.model';
+import { Cargo } from '../models/cargo.model';
 import { UpdateRolesDto } from './dto/update-roles.dto';
 
 @ApiTags('admin/user')

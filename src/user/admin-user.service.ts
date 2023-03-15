@@ -7,12 +7,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
 import { SignupUserDto } from '../auth/dto/signup-user.dto';
-import { CargoException } from 'src/models/cargo.exception';
+import { CargoException } from '../models/cargo.exception';
 import { UpdateRolesDto } from './dto/update-roles.dto';
-import { PageRequest } from 'src/models/page-request';
+import { PageRequest } from '../models/page-request';
 import { FilterUserDto } from './dto/filter-user.dto';
-import { camelToSnake } from 'src/utils/helpers';
-import { PageResponse } from 'src/models/page-response';
+import { camelToSnake } from '../utils/helpers';
+import { PageResponse } from '../models/page-response';
 
 @Injectable()
 export class AdminUserService {

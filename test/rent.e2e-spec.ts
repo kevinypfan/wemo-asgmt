@@ -9,7 +9,6 @@ import { User } from '../src/user/entities/user.entity';
 import { Rent } from '../src/rent/entities/rent.entity';
 import * as argon2 from 'argon2';
 import { randomLicensePlates } from '../src/utils/helpers';
-import { CreateRentDto } from 'src/rent/dto/create-rent.dto';
 
 const mockUsers = [
   {

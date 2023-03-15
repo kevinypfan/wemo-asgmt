@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { ResponseUserDto } from 'src/auth/dto/response-user.dto';
+import { User } from '../src/user/entities/user.entity';
+import { ResponseUserDto } from '../src/auth/dto/response-user.dto';
 import { delay } from '../src/utils/helpers';
 
 const mockUser = {

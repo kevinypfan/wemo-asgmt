@@ -19,7 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Cargo } from 'src/models/cargo.model';
+import { Cargo } from '../models/cargo.model';
 
 @ApiTags('user')
 @ApiBearerAuth()

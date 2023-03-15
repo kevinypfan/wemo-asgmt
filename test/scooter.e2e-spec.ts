@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { Repository } from 'typeorm';
-import { Scooter } from 'src/scooter/entities/scooter.entity';
+import { Scooter } from '../src/scooter/entities/scooter.entity';
 import * as jwt from 'jsonwebtoken';
 import { randomLicensePlates } from '../src/utils/helpers';
 
