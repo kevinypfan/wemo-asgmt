@@ -111,6 +111,36 @@ describe('AuthController (e2e)', () => {
     expect(response.body.code).toEqual('1003');
   });
 
+  it('PATCH /user/update-password (0000)', async () => {
+    const newPassword = 'Test1234';
+
+    let response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ username: mockUser.username, password: mockUser.password })
+      .set('Accept', 'application/json');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.code).toEqual('0000');
+    loggedUser = response.body.info;
+
+    response = await request(app.getHttpServer())
+      .patch('/user/update-password')
+      .send({ oldPassword: mockUser.password, newPassword })
+      .set('Authorization', `Bearer ${loggedUser.accessToken}`)
+      .set('Accept', 'application/json');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.code).toEqual('0000');
+
+    response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ username: mockUser.username, password: newPassword })
+      .set('Accept', 'application/json');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.code).toEqual('0000');
+  });
+
   afterAll(async () => {
     await userRepository.query('DELETE FROM core_users');
   });

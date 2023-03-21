@@ -86,7 +86,6 @@ describe('RentController (e2e)', () => {
         });
       }),
     );
-    console.log(users);
   });
   describe('Admin', () => {
     it('POST /admin/rent (0000)', async () => {
@@ -109,7 +108,6 @@ describe('RentController (e2e)', () => {
         .set('Accept', 'application/json');
       expect(response.status).toEqual(201);
       expect(response.body.code).toEqual('0000');
-      console.log(response.body);
     });
 
     it('GET /admin/rent (0000)', async () => {

@@ -5,22 +5,22 @@ import { AppModule } from './../src/app.module';
 import { Repository } from 'typeorm';
 import { User } from '../src/user/entities/user.entity';
 import { ResponseUserDto } from '../src/auth/dto/response-user.dto';
-import { delay, randomLicensePlates } from '../src/utils/helpers';
+import { randomLicensePlates } from '../src/utils/helpers';
 import { Scooter } from 'src/scooter/entities/scooter.entity';
 import { Rent } from 'src/rent/entities/rent.entity';
 
-const mockUsers = [
-  {
-    username: 'testkevin',
-    email: 'testkevin@test.com',
-    roles: 'admin',
-  },
-  {
-    username: 'testallen',
-    email: 'testallen@test.com',
-    roles: 'user',
-  },
-];
+// const mockUsers = [
+//   {
+//     username: 'testkevin',
+//     email: 'testkevin@test.com',
+//     roles: 'admin',
+//   },
+//   {
+//     username: 'testallen',
+//     email: 'testallen@test.com',
+//     roles: 'user',
+//   },
+// ];
 
 const mockUser = {
   username: 'testuser',
@@ -46,7 +46,6 @@ describe('IntegrationTest (e2e)', () => {
   let scooterRepository: Repository<Scooter>;
   let rentRepository: Repository<Rent>;
   let loggedUser: ResponseUserDto;
-  let users;
   let scooters;
   let rents;
 
@@ -111,7 +110,6 @@ describe('IntegrationTest (e2e)', () => {
     expect(response.body.info.content.length).toEqual(20);
     expect(response.body.info.totalElements).toEqual(30);
     scooters = response.body.info.content;
-    console.log({ scooters });
   });
 
   it('POST /rent (0000)', async () => {
